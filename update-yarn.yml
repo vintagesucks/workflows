@@ -1,0 +1,47 @@
+name: Update Yarn
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: true
+
+jobs:
+  update-yarn:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js (.nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: "yarn"
+
+      - name: Get current Yarn version
+        id: current-version
+        run: echo "version=$(yarn --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Update Yarn
+        run: yarn set version latest && yarn dedupe
+
+      - name: Get new Yarn version
+        id: new-version
+        run: echo "version=$(yarn --version)" >> "$GITHUB_OUTPUT"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7.0.8
+        with:
+          author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+          committer: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+          branch: 'github_actions/update-yarn'
+          title: 'update yarn from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}'
+          commit-message: 'update yarn from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}'
+          body: |
+            Updates [yarn](https://github.com/yarnpkg/berry) from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}.
+
+            - Release Notes: https://github.com/yarnpkg/berry/releases
+            - Full Changelog: [`${{ steps.current-version.outputs.version }}...${{ steps.new-version.outputs.version }}`](https://github.com/yarnpkg/berry/compare/@yarnpkg/cli/${{ steps.current-version.outputs.version }}...@yarnpkg/cli/${{ steps.new-version.outputs.version }})
+          labels: 'dependencies,javascript'
+          delete-branch: true
+          token: ${{ secrets.token }}
