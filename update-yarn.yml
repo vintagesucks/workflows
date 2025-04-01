@@ -35,10 +35,10 @@ jobs:
           author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
           committer: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
           branch: 'github_actions/update-yarn'
-          title: 'update yarn from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}'
-          commit-message: 'update yarn from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}'
+          title: 'bump yarn from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}'
+          commit-message: 'bump yarn from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}'
           body: |
-            Updates [yarn](https://github.com/yarnpkg/berry) from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}.
+            Bumps [yarn](https://github.com/yarnpkg/berry) from ${{ steps.current-version.outputs.version }} to ${{ steps.new-version.outputs.version }}.
 
             - Release Notes: https://github.com/yarnpkg/berry/releases
             - Full Changelog: [`${{ steps.current-version.outputs.version }}...${{ steps.new-version.outputs.version }}`](https://github.com/yarnpkg/berry/compare/@yarnpkg/cli/${{ steps.current-version.outputs.version }}...@yarnpkg/cli/${{ steps.new-version.outputs.version }})
