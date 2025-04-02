@@ -1,0 +1,51 @@
+name: Update Browserslist data
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: false
+
+jobs:
+  update-browserslist-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js (.nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: "yarn"
+
+      - name: Update Browserslist data
+        run: yarn && yarn up -R browserslist && yarn up -R caniuse-lite && yarn dedupe && npx browserslist > .browserslist.lock
+
+      - name: Format Browserslist output as table
+        id: format-table
+        run: |
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          echo "| Browser | Version |" >> $GITHUB_OUTPUT
+          echo "| ------- | ------- |" >> $GITHUB_OUTPUT
+          while IFS= read -r line; do
+            browser=$(echo "$line" | awk '{print $1}')
+            version=$(echo "$line" | awk '{print $2}')
+            echo "| $browser | $version |" >> $GITHUB_OUTPUT
+          done < .browserslist.lock
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7.0.8
+        with:
+          author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+          committer: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+          branch: 'github_actions/update-browserslist-data'
+          title: 'update browserslist data'
+          commit-message: 'update browserslist data'
+          body: |
+            Updates [Browserslist](https://github.com/browserslist/browserslist) data. The current target browsers are:
+
+            ${{ steps.format-table.outputs.result }}
+          labels: 'dependencies,javascript'
+          delete-branch: true
+          token: ${{ secrets.token || github.token }}
