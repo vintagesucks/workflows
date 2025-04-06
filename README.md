@@ -28,7 +28,9 @@ This workflow updates Yarn to the latest version and creates a pull request with
 ```yaml
 jobs:
   update-yarn:
-    uses: vintagesucks/workflows/.github/workflows/update-yarn.yml@update-yarn/v1.0.0
+    uses: vintagesucks/workflows/.github/workflows/update-yarn.yml@update-yarn/v1.1.0
+    # with:
+      # labels: 'yarn' # optional, defaults to 'dependencies,javascript'
     # secrets:
     #   token: ${{ secrets.PAT }} # optional, defaults to GITHUB_TOKEN
 ```
