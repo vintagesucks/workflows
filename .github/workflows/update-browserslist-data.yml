@@ -2,6 +2,12 @@ name: Update Browserslist data
 
 on:
   workflow_call:
+    inputs:
+      labels:
+        description: 'Comma-separated list of labels to apply to the PR'
+        required: false
+        type: string
+        default: 'dependencies,javascript'
     secrets:
       token:
         required: false
@@ -46,6 +52,6 @@ jobs:
             Updates [Browserslist](https://github.com/browserslist/browserslist) data. The current target browsers are:
 
             ${{ steps.format-table.outputs.result }}
-          labels: 'dependencies,javascript'
+          labels: ${{ inputs.labels }}
           delete-branch: true
           token: ${{ secrets.token || github.token }}
