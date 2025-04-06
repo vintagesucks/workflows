@@ -14,7 +14,9 @@ This workflow updates Browserslist data, records the current target browsers in 
 ```yaml
 jobs:
   update-browserslist-data
-    uses: vintagesucks/workflows/.github/workflows/update-browserslist-data.yml@update-browserslist-data/v1.0.0
+    uses: vintagesucks/workflows/.github/workflows/update-browserslist-data.yml@update-browserslist-data/v1.1.0
+    # with:
+      # labels: 'yarn' # optional, defaults to 'dependencies,javascript'
     # secrets:
     #   token: ${{ secrets.PAT }} # optional, defaults to GITHUB_TOKEN
 ```
