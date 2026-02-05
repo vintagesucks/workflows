@@ -14,7 +14,7 @@ This workflow updates Browserslist data, records the current target browsers in 
 ```yaml
 jobs:
   update-browserslist-data
-    uses: vintagesucks/workflows/.github/workflows/update-browserslist-data.yml@update-browserslist-data/v2.0.0
+    uses: vintagesucks/workflows/.github/workflows/update-browserslist-data.yml@update-browserslist-data/v3.0.0
     # with:
       # labels: 'yarn' # optional, defaults to 'dependencies,javascript'
     # secrets:
@@ -30,7 +30,7 @@ This workflow updates Yarn to the latest version and creates a pull request with
 ```yaml
 jobs:
   update-yarn:
-    uses: vintagesucks/workflows/.github/workflows/update-yarn.yml@update-yarn/v2.0.0
+    uses: vintagesucks/workflows/.github/workflows/update-yarn.yml@update-yarn/v3.0.0
     # with:
       # labels: 'yarn' # optional, defaults to 'dependencies,javascript'
     # secrets:
